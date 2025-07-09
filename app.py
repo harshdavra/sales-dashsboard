@@ -63,11 +63,12 @@ def add_sale():
         product = request.form['product']
         amount = request.form['amount']
         date = request.form['date']
-        added_by = session['user']
+        ptype = request.form['product-type']
+
 
         conn = get_db_connection()
-        conn.execute('INSERT INTO sales (product, amount, date, added_by) VALUES (?, ?, ?, ?)',
-                     (product, amount, date, added_by))
+        conn.execute('INSERT INTO sales (product, amount, date, product_type) VALUES (?, ?, ?, ?, ?)',
+                     (product, amount, date, ptype))
         conn.commit()
         conn.close()
 
@@ -82,7 +83,7 @@ def history():
         return redirect(url_for('login'))
 
     conn = get_db_connection()
-    sales = conn.execute('SELECT * FROM sales ORDER BY date DESC').fetchall()
+    sales = conn.execute('SELECT * FROM sales ORDER BY id ASC').fetchall()
     conn.close()
 
     return render_template('history.html', sales=sales)
@@ -125,7 +126,7 @@ def upload_csv():
                 reader = csv.reader(f)
                 next(reader)  # Skip header
                 for row in reader:
-                    conn.execute('INSERT INTO sales (product, amount, date, added_by) VALUES (?, ?, ?, ?)',
+                    conn.execute('INSERT INTO sales (product, amount, date) VALUES (?, ?, ?, ?)',
                                  (row[0], row[1], row[2], session['user']))
             conn.commit()
             conn.close()
@@ -145,9 +146,10 @@ def update_sale(sale_id):
         product = request.form['product']
         amount = request.form['amount']
         date = request.form['date']
+        ptype = request.form['product-type']
 
-        conn.execute('UPDATE sales SET product=?, amount=?, date=? WHERE id=?',
-                     (product, amount, date, sale_id))
+        conn.execute('UPDATE sales SET product=?, amount=?, date=?, product_type=? WHERE id=?',
+                     (product, amount, date, ptype, sale_id))
         conn.commit()
         conn.close()
         return redirect(url_for('history'))
