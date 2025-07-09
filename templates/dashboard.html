@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Welcome to the Dashboard</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-2">Sales Over Time</h2>
+        <img src="{{ url_for('static', filename='chart1.png') }}" alt="Sales Chart" class="w-full">
+    </div>
+</div>
+{% endblock %}

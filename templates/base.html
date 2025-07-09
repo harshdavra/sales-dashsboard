@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body class="flex min-h-screen bg-gray-100">
+
+    <!-- Sidebar -->
+    {% if session.get('user') %}
+    <aside class="w-64 bg-white shadow-md p-4">
+        <h2 class="text-xl font-bold mb-4">Menu</h2>
+       
+        <ul class="space-y-4">
+            <li><a href="{{ url_for('dashboard') }}" class="text-blue-600">Dashboard</a></li>
+            <li><a href="{{ url_for('add_sale') }}" class="text-blue-600">Add Sale</a></li>
+            <li><a href="{{ url_for('history') }}" class="text-blue-600">Sales History</a></li>
+            <li><a href="{{ url_for('report') }}" class="text-blue-600">Reports</a></li>
+            <li><a href="{{ url_for('upload_csv') }}" class="text-blue-600">Upload CSV</a></li>
+        </ul>
+       <a href="{{ url_for('logout') }}" 
+     class="text-red-500 absolute bottom-4 left text-sm">
+    Logout
+  </a>
+  
+    </aside>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6">
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
