@@ -1,4 +1,5 @@
-# utils/chart_utils.py
+import matplotlib
+matplotlib.use('Agg')  # ✅ Use non-GUI backend for server rendering
 
 import matplotlib.pyplot as plt
 import sqlite3

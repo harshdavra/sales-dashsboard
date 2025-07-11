@@ -63,11 +63,11 @@ def add_sale():
         product = request.form['product']
         amount = request.form['amount']
         date = request.form['date']
-        ptype = request.form['product-type']
+        ptype = request.form['product_type']
 
 
         conn = get_db_connection()
-        conn.execute('INSERT INTO sales (product, amount, date, product_type) VALUES (?, ?, ?, ?, ?)',
+        conn.execute('INSERT INTO sales (product, amount, date, product_type) VALUES (?, ?, ?, ?)',
                      (product, amount, date, ptype))
         conn.commit()
         conn.close()
@@ -146,7 +146,7 @@ def update_sale(sale_id):
         product = request.form['product']
         amount = request.form['amount']
         date = request.form['date']
-        ptype = request.form['product-type']
+        ptype = request.form['product_type']
 
         conn.execute('UPDATE sales SET product=?, amount=?, date=?, product_type=? WHERE id=?',
                      (product, amount, date, ptype, sale_id))

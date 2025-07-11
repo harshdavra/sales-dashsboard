@@ -3,34 +3,40 @@
 {% block title %}Update Sale{% endblock %}
 
 {% block content %}
+
 <h2 class="text-2xl font-bold mb-6 text-gray-700">Update Sale</h2>
 
-<form method="POST" action="{{ url_for('update_sale', sale_id=sale['id']) }}">
+<form method="POST" action="{{ url_for('update_sale', sale_id=sale.id) }}">
     <div class="mb-6 flex justify-between gap-6">
         <div class="flex-1">
             <label for="product" class="block text-gray-700 font-medium mb-2">Product Name</label>
-            <input type="text" id="product" name="product" required
-                   value="{{ sale['product'] }}"
-                   class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="text" id="product" name="product" value="{{ sale.product }}" required
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
+
         <div class="flex-1">
             <label for="amount" class="block text-gray-700 font-medium mb-2">Amount</label>
-            <input type="number" id="amount" name="amount" required
-                   value="{{ sale['amount'] }}"
-                   class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="number" id="amount" name="amount" value="{{ sale.amount }}" required
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
     </div>
 
     <div class="mb-6">
+        <label for="product_type" class="block text-gray-700 font-medium mb-2">Product Type</label>
+        <input type="text" id="product_type" name="product_type" value="{{ sale.product_type }}" required
+            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <div class="mb-6">
         <label for="date" class="block text-gray-700 font-medium mb-2">Date</label>
-        <input type="date" id="date" name="date" required
-               value="{{ sale['date'] }}"
-               class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <input type="date" id="date" name="date" value="{{ sale.date }}" required
+            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
     </div>
 
     <button type="submit"
-            class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition duration-200">
+        class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition duration-200">
         Update Sale
     </button>
 </form>
+
 {% endblock %}
