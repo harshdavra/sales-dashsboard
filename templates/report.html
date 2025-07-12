@@ -27,12 +27,20 @@
     </form>
 
     <!-- Charts -->
-    {% if sales %}
-    <div class="grid md:grid-cols-2 gap-6 mb-8">
-        <img src="{{ url_for('static', filename='chart1.png') }}" alt="Chart 1" class="w-full rounded shadow">
-        <img src="{{ url_for('static', filename='chart2.png') }}" alt="Chart 2" class="w-full rounded shadow">
+   <!-- Charts -->
+{% if sales %}
+<div class="grid md:grid-cols-2 gap-6 mb-8">
+    <div>
+        <h2 class="text-lg font-semibold mb-2 text-gray-700">Sales Over Time</h2>
+        <img src="{{ url_for('static', filename='chart1.png') }}" alt="Sales Line Chart" class="w-full rounded shadow">
     </div>
-    {% endif %}
+    <div>
+        <h2 class="text-lg font-semibold mb-2 text-gray-700">Sales by Product Type</h2>
+        <img src="{{ url_for('static', filename='piechart.png') }}" alt="Sales Pie Chart" class="w-full rounded shadow">
+    </div>
+</div>
+{% endif %}
+
 
     <!-- Sales Table -->
     {% if sales %}
@@ -41,18 +49,18 @@
             <thead class="bg-gray-200 text-gray-700">
                 <tr>
                     <th class="px-4 py-2 text-left">Product</th>
+                    <th class="px-4 py-2 text-left">Product Type</th>
                     <th class="px-4 py-2 text-left">Amount</th>
                     <th class="px-4 py-2 text-left">Date</th>
-                    <th class="px-4 py-2 text-left">Added By</th>
                 </tr>
             </thead>
             <tbody>
                 {% for sale in sales %}
                 <tr class="border-t">
                     <td class="px-4 py-2">{{ sale['product'] }}</td>
+                    <td class="px-4 py-2">{{ sale['product_type'] }}</td>
                     <td class="px-4 py-2">₹{{ sale['amount'] }}</td>
                     <td class="px-4 py-2">{{ sale['date'] }}</td>
-                    <td class="px-4 py-2">{{ sale['added_by'] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

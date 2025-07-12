@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
-from utils.chart_utils import generate_charts
+from utils.chart_utils import generate_charts, generate_pie_chart
 import os
 
 app = Flask(__name__)
@@ -45,13 +45,21 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'user' not in session:
         return redirect(url_for('login'))
 
-    generate_charts()  # Generate chart1.png, chart2.png
-    return render_template('dashboard.html')
+    selected_year = None
+
+    if request.method == 'POST':
+        selected_year = request.form.get('year')
+        generate_pie_chart(year=selected_year)
+    else:
+        generate_pie_chart()  # default pie chart for all years
+
+    generate_charts()  # existing line chart
+    return render_template('dashboard.html', selected_year=selected_year)
 
 
 @app.route('/add_sale', methods=['GET', 'POST'])
@@ -105,8 +113,11 @@ def report():
         conn.close()
 
         generate_charts(start_date, end_date)
+        generate_pie_chart(start_date, end_date)  # ✅ Pie chart for filtered dates
 
     return render_template('report.html', sales=sales)
+
+
 
 
 @app.route('/upload-csv', methods=['GET', 'POST'])

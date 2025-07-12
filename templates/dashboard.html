@@ -1,14 +1,33 @@
 {% extends "base.html" %}
-
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
 <h1 class="text-2xl font-bold mb-6 text-gray-700">Welcome to the Dashboard</h1>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Year Dropdown -->
+<form method="POST" class="mb-6">
+    <label for="year" class="mr-2 font-medium text-gray-700">Select Year:</label>
+    <select name="year" id="year" class="border px-3 py-1 rounded">
+        <option value="">All</option>
+        {% for y in range(2020, 2026) %}
+            <option value="{{ y }}" {% if selected_year == y|string %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="ml-2 px-4 py-1 bg-blue-600 text-white rounded">Filter</button>
+</form>
+
+<!-- Charts -->
+<div class="grid grid-cols-2 md:grid-cols-2 gap-6">
+    <!-- Line Chart -->
     <div class="bg-white p-4 rounded shadow">
         <h2 class="text-lg font-semibold mb-2">Sales Over Time</h2>
         <img src="{{ url_for('static', filename='chart1.png') }}" alt="Sales Chart" class="w-full">
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="text-lg font-semibold mb-2">Product Type Distribution</h2>
+        <img src="{{ url_for('static', filename='piechart.png') }}" alt="Pie Chart" class="w-full">
     </div>
 </div>
 {% endblock %}
