@@ -5,11 +5,27 @@
   <title>{% block title %}Dashboard{% endblock %}</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="flex bg-gray-100">
+<body class="flex flex-col md:flex-row bg-gray-100 min-h-screen">
+<div class="md:hidden flex items-center justify-between bg-white p-4 shadow fixed top-0 w-full z-50">
+  <h2 class="text-xl font-bold">Menu</h2>
+  <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="text-blue-600 font-semibold">☰</button>
+</div>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="md:hidden bg-white shadow p-4 space-y-4 mt-16 hidden">
+  <a href="{{ url_for('dashboard') }}" class="block">Dashboard</a>
+  <a href="{{ url_for('add_sale') }}" class="block">Add Sale</a>
+  <a href="{{ url_for('history') }}" class="block">Sales History</a>
+  <a href="{{ url_for('report') }}" class="block">Reports</a>
+  <a href="{{ url_for('upload_csv') }}" class="block">Upload CSV</a>
+  <a href="{{ url_for('logout') }}" class="block text-red-500">Logout</a>
+</div>
+
 
   {% if session.get('user') %}
   <!-- Sidebar -->
-  <aside class="w-64 h-screen flex flex-col justify-between bg-white shadow-md p-4 fixed left-0 top-0">
+  <aside class="hidden md:flex w-64 h-screen flex-col justify-between bg-white shadow-md p-4 fixed left-0 top-0 z-40">
+
     <div>
       <h2 class="text-xl font-bold mb-4">Menu</h2>
       <ul class="space-y-4">
@@ -67,7 +83,8 @@
   {% endif %}
 
   <!-- Main Content -->
-  <main class="ml-64 w-full p-6 overflow-y-auto h-screen">
+<main class="md:ml-64 w-full p-6 overflow-y-auto h-screen">
+
     {% block content %}{% endblock %}
   </main>
 <script>
