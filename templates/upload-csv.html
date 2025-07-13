@@ -7,21 +7,17 @@
 <form method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow-md">
   <div class="mb-4">
     <label for="file" class="block mb-2 font-medium text-gray-700">Select CSV File</label>
-    <input type="file" id="file" name="file" accept=".csv" required
-           class="w-full border px-3 py-2 rounded" />
+    <input type="file" id="file" name="file" accept=".csv" required class="w-full border px-3 py-2 rounded" />
   </div>
-  <button type="submit"
-          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-    Upload and Generate Charts
+  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+    Upload and Generate Chart
   </button>
 </form>
 
 {% if uploaded %}
   <div class="mt-6">
-    <h3 class="text-lg font-semibold mb-2">Generated Charts:</h3>
-    <img src="{{ url_for('static', filename='chart_bar.png') }}" class="mb-4 w-full max-w-md" />
-    <img src="{{ url_for('static', filename='chart_line.png') }}" class="mb-4 w-full max-w-md" />
-    <img src="{{ url_for('static', filename='chart_pie.png') }}" class="w-full max-w-md" />
+    <h3 class="text-lg font-semibold mb-2">Generated Bar Chart:</h3>
+    <img src="{{ url_for('static', filename='bar_dynamic.png') }}" class="w-full max-w-lg" />
   </div>
 {% endif %}
 {% endblock %}

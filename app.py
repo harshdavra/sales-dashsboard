@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
-from utils.chart_utils import generate_charts, generate_pie_chart
+from utils.chart_utils import generate_charts, generate_pie_chart, generate_dynamic_bar_chart
 import os
-
+import matplotlib.pyplot as plt
+import os
+import pandas as pd
+import csv
 app = Flask(__name__)
 app.secret_key = "123456789harsh"
 
@@ -119,32 +122,26 @@ def report():
 
 
 
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/upload-csv', methods=['GET', 'POST'])
 def upload_csv():
-    if 'user' not in session:
-        return redirect(url_for('login'))
-
+    chart_generated = False
     if request.method == 'POST':
         file = request.files['file']
         if file and file.filename.endswith('.csv'):
-            filepath = os.path.join('uploads', file.filename)
+            filepath = os.path.join(UPLOAD_FOLDER, file.filename)
             file.save(filepath)
 
-            import csv
-            conn = get_db_connection()
-            with open(filepath, 'r') as f:
-                reader = csv.reader(f)
-                next(reader)  # Skip header
-                for row in reader:
-                    conn.execute('INSERT INTO sales (product, amount, date) VALUES (?, ?, ?, ?)',
-                                 (row[0], row[1], row[2], session['user']))
-            conn.commit()
-            conn.close()
+            # Call your utility function
+            generate_dynamic_bar_chart(filepath)
+            chart_generated = True
 
-            return redirect(url_for('history'))
-
-    return render_template('upload-csv.html')
+    return render_template('upload-csv.html', uploaded=chart_generated)
 # ----------------- UPDATE SALE -----------------
 @app.route('/update_sale/<int:sale_id>', methods=['GET', 'POST'])
 def update_sale(sale_id):
